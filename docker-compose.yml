@@ -10,7 +10,7 @@ services:
       - ./client/:/app
       - share:/app/build
     environment:
-      - REACT_APP_SERVER=http://localhost:3000/
+      - REACT_APP_SERVER=http://118.67.134.22/
       - REACT_APP_CLIENT=http://localhost:3000/
 
   server:
@@ -37,7 +37,7 @@ services:
     volumes:
       - share:/usr/nginx/html
     ports:
-      - 3000:80
+      - 80:80
     restart: always
 
   mysql:
