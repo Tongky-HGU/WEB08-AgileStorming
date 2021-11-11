@@ -1,0 +1,59 @@
+version: '3.8'
+
+services:
+  client:
+    build:
+      context: ./client
+    volumes:
+      - /app/node_modules
+      - ./client/:/app
+      - share:/app/build
+    environment:
+      - REACT_APP_SERVER=http://localhost:5000
+      - REACT_APP_CLIENT=http://localhost:3000/
+
+  server:
+    build:
+      context: ./server
+    volumes:
+      - /app/node_modules
+      - ./server/:/app
+    environment:
+      - NODE_ENV=development
+      - ORIGIN=http://localhost:3000
+      - DB_HOST=mysql
+      - DB_PORT=3306
+      - DB_USERNAME=root
+      - DB_PASSWORD=secret
+      - DB_DATABASE=agilestorm
+      - JWT_SECRET_KEY=secretkey
+
+  nginx:
+    build:
+      context: ./nginx
+    volumes:
+      - share:/usr/nginx/html
+    ports:
+      - 3000:80
+    restart: always
+
+  mysql:
+    image: mysql:5.7
+    volumes:
+      - mysql-agilstorm:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=secret
+      - MYSQL_DATABASE=agilestorm
+
+  redis:
+    image: redis
+    volumes:
+      - ./server/redis.conf:/usr/local/etc/redis/redis.conf
+    ports:
+      - 6379:6379
+    command: redis-server /usr/local/etc/redis/redis.conf
+    restart: always
+
+volumes:
+  share:
+  mysql-agilstorm:
