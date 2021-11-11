@@ -2,6 +2,7 @@ version: '3.8'
 
 services:
   client:
+    container_name: react
     build:
       context: ./client
     volumes:
@@ -9,10 +10,11 @@ services:
       - ./client/:/app
       - share:/app/build
     environment:
-      - REACT_APP_SERVER=http://localhost:5000
+      - REACT_APP_SERVER=http://localhost:3000
       - REACT_APP_CLIENT=http://localhost:3000/
 
   server:
+    container_name: nodejs
     build:
       context: ./server
     volumes:
@@ -29,6 +31,7 @@ services:
       - JWT_SECRET_KEY=secretkey
 
   nginx:
+    container_name: nginx
     build:
       context: ./nginx
     volumes:
@@ -38,6 +41,7 @@ services:
     restart: always
 
   mysql:
+    container_name: mysql
     image: mysql:5.7
     volumes:
       - mysql-agilstorm:/var/lib/mysql
@@ -46,6 +50,7 @@ services:
       - MYSQL_DATABASE=agilestorm
 
   redis:
+    container_name: redis
     image: redis
     volumes:
       - ./server/redis.conf:/usr/local/etc/redis/redis.conf
