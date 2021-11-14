@@ -10,8 +10,8 @@ services:
       - ./client/:/app
       - share:/app/build
     environment:
-      - REACT_APP_SERVER=http://118.67.134.22/
-      - REACT_APP_CLIENT=http://localhost:3000/
+      - REACT_APP_SERVER=${REACT_APP_SERVER}
+      - REACT_APP_CLIENT=${REACT_APP_CLIENT}
 
   server:
     container_name: nodejs
@@ -21,14 +21,14 @@ services:
       - /app/node_modules
       - ./server/:/app
     environment:
-      - NODE_ENV=development
-      - ORIGIN=http://localhost:3000
-      - DB_HOST=mysql
-      - DB_PORT=3306
-      - DB_USERNAME=root
-      - DB_PASSWORD=secret
-      - DB_DATABASE=agilestorm
-      - JWT_SECRET_KEY=secretkey
+      - NODE_ENV=${NODE_ENV}
+      - ORIGIN=${ORIGIN}
+      - DB_HOST=${DB_HOST}
+      - DB_PORT=${DB_PORT}
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_DATABASE=${DB_DATABASE}
+      - JWT_SECRET_KEY=${JWT_SECRET_KEY}
 
   nginx:
     container_name: nginx
@@ -46,8 +46,8 @@ services:
     volumes:
       - mysql-agilstorm:/var/lib/mysql
     environment:
-      - MYSQL_ROOT_PASSWORD=secret
-      - MYSQL_DATABASE=agilestorm
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
 
   redis:
     container_name: redis
